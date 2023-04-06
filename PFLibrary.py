@@ -1,3 +1,13 @@
+##Official League ID
+league = str(5598)
+
+##Running list of game ###s, +1 because that's just what do
+games = range(4101506,4101586)
+
+##Current week of games so you don't scrape the whole season every time
+currentweek = range(4101586,4101602)
+
+
 PFAbb = {"Roadrunners": "ARI",
         "Hawks": "ATL",
         "Owls": "BAL",
@@ -18,7 +28,7 @@ PFAbb = {"Roadrunners": "ARI",
         "Griffins": "LAG",
         "Rhinos": "LAR",
         "Sharks": "MIA",
-        "Polarbears": "MIN",
+        "Polar bears": "MIN",
         "Marauders": "NE",
         "Boars": "NO",
         "Hornets": "NYH",
@@ -31,6 +41,7 @@ PFAbb = {"Roadrunners": "ARI",
         "Vipers": "TEN",
         "Bandits": "WAS"}
 
+##Team Object for ultimate flexibility as I add more functionality
 class Team:
     def __init__(self,city,nickname,abbreviation,conference,division):
         self.city = city
@@ -38,7 +49,21 @@ class Team:
         self.abbr = abbreviation
         self.conference = conference
         self.division = division
+        self.EloOff = 1500
+        self.EloDef = 1500
+        self.OffSnaps = 0
+        self.OffWins = 0
+        self.DefSnaps = 0
+        self.DefWins = 0
+        self.Games = []
+    def GetImage(self):
+        lowercase = self.nickname.lower()
+        filename = "icons/"+lowercase+".svg"
+        return filename
+    def AddGame(self,opponent,pf,pa):
+        self.Games.append([opponent,pf,pa])
 
+##I wanna turn this into a CSV load function somehow for easier editing
 ARI = Team("Arizona","Roadrunners","ARI","Blue","West")
 ATL = Team("Atlanta","Hawks","ATL","Blue","South")
 BAL = Team("Baltimore","Owls","BAL","Red","North")
@@ -71,6 +96,10 @@ SEA = Team("Seattle","Kings","SEA","Blue","West")
 TB = Team("Tampa Bay","Pirates","TB","Blue","South")
 TEN = Team("Tennessee","Vipers","TEN","Red","South")
 WAS = Team("Washington","Bandits","WAS","Blue","East")
+
+##List ALL the teams!
+PFTeams = [ARI,ATL,BAL,BUF,CAR,CHI,CIN,CLE,DAL,DEN,DET,GB,HOU,IND,JAX,KC,LV,LAG,LAR,MIA,MIN,NE,NO,NYH,NYP,PHI,PIT,SF,SEA,TB,TEN,WAS]
+
 
 def AbbToTeam(x):
     return eval(x)
